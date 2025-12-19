@@ -15,5 +15,10 @@ class Reparacion extends Model
         'nombre_dueno',
         'telefono',
         'estado',
+        'retirado_at',
+    ];
+
+    protected $casts = [
+        'retirado_at' => 'datetime',
     ];
 }

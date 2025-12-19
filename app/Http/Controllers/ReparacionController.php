@@ -12,7 +12,12 @@ class ReparacionController extends Controller
         $query = Reparacion::query()->orderByDesc('created_at');
 
         if ($request->boolean('pendientes')) {
-            $query->whereIn('estado', ['esperando', 'trabajando']);
+            $query->whereNull('retirado_at')
+                ->whereIn('estado', ['esperando', 'trabajando']);
+        }
+
+        if ($request->boolean('retiradas')) {
+            $query->whereNotNull('retirado_at');
         }
 
         $reparaciones = $query->paginate(10);
@@ -35,6 +40,8 @@ class ReparacionController extends Controller
             'telefono' => 'required|string|max:20',
             'estado' => 'required|in:esperando,trabajando,lista,recogida',
         ]);
+
+        $validated['retirado_at'] = null;
 
         Reparacion::create($validated);
 
@@ -66,9 +73,12 @@ class ReparacionController extends Controller
 
     public function destroy(Reparacion $reparacione)
     {
-        $reparacione->delete();
+        $reparacione->update([
+            'estado' => 'retirado',
+            'retirado_at' => now(),
+        ]);
 
         return redirect()->route('reparaciones.index')
-            ->with('success', 'Reparación eliminada.');
+            ->with('success', 'Reparación marcada como retirado.');
     }
 }
