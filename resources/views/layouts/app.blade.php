@@ -13,7 +13,6 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="nav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -26,12 +25,10 @@
         </div>
     </div>
 </nav>
-
 <div class="container my-4">
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-
     @if($errors->any())
         <div class="alert alert-danger">
             <strong>Revisa el formulario:</strong>
@@ -42,10 +39,8 @@
             </ul>
         </div>
     @endif
-
     @yield('contenido')
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
